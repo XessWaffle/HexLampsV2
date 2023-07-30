@@ -40,7 +40,7 @@ void setup() {
   packet->req_params.animation_cb = color;
   packet->req_params.params.brightness = 10;
   packet->req_params.params.fps = 30;
-  packet->req_params.params.color = CRGB(200, 50, 0);
+  packet->req_params.params.color = CRGB(200, 20, 0);
 
   add_preference(sleep, packet);
 

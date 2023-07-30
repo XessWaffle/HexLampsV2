@@ -70,7 +70,7 @@ lamp_task_e lamp_on()
 lamp_task_e lamp_off()
 {
     lamp_parameters_s *params = &(glbl_lamp_state.task_queue_process->req_params);
-    if(glbl_lamp_state.on) return LAMP_OFF_FAIL;
+    if(!glbl_lamp_state.on) return LAMP_OFF_FAIL;
     glbl_lamp_state.on = false;
     
     for(int i = 0; i < NUM_LEDS; i++){
