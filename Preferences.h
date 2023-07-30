@@ -6,5 +6,6 @@
 
 bool night();
 bool sleep();
+bool day();
 
 #endif

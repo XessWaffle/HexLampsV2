@@ -14,7 +14,7 @@ const char WIFI_PSK[] = "lpvertcomm";
 
 const uint8_t NIGHT_HOUR = 22;
 const uint8_t SLEEP_HOUR = 1;
-const uint8_t MORNING_HOUR = 9;
+const uint8_t MORNING_HOUR = 8;
 
 const uint32_t TIME_UPDATE = 1000 * 60 * 30;
 

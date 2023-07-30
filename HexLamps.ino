@@ -14,16 +14,6 @@ void lamp_task_cb(lamp_task_e task_result)
 
 }
 
-bool test_preference(){
-
-  Serial.println("Test1");
-  return random(10) > 5;
-}
-
-bool test_preference2(){
-  Serial.println("Test2");
-  return random(10) < 5;
-}
 
 void setup() {
   // put your setup code here, to run once
@@ -48,34 +38,22 @@ void setup() {
   packet->req_task = LAMP_SWITCH_ANIMATION_REQ;
   packet->next_req = NULL;
   packet->req_params.animation_cb = color;
-  packet->req_params.params.brightness = 20;
+  packet->req_params.params.brightness = 10;
   packet->req_params.params.fps = 30;
-  packet->req_params.params.color = CRGB(255, 0, 0);
+  packet->req_params.params.color = CRGB(200, 50, 0);
 
   add_preference(sleep, packet);
-
-  /*packet = (lamp_task_packet_s*) malloc(sizeof(lamp_task_packet_s));
-  packet->cb = lamp_task_cb;
-  packet->req_task = LAMP_ON_REQ;
-  packet->next_req = NULL;
-  packet->req_params.animation_cb = fire;
-  packet->req_params.params.brightness = 240;
-  packet->req_params.params.fps = 60;
-  packet->req_params.params.color = CRGB(255, 255, 255);
-
-  //add_preference(test_preference, packet);
 
   packet = (lamp_task_packet_s*) malloc(sizeof(lamp_task_packet_s));
   packet->cb = lamp_task_cb;
   packet->req_task = LAMP_OFF_REQ;
   packet->next_req = NULL;
-  packet->req_params.animation_cb = NULL;
-  packet->req_params.params.brightness = 50;
+  packet->req_params.animation_cb = fire;
+  packet->req_params.params.brightness = 0;
   packet->req_params.params.fps = 60;
-  packet->req_params.params.color = CRGB(0,0,0);
+  packet->req_params.params.color = CRGB(255, 255, 255);
 
-  //add_preference(test_preference2, packet);*/
-
+  add_preference(day, packet);
 
 }
 

@@ -7,7 +7,7 @@ void initialize()
 {
     FastLED.addLeds<WS2812B, DATA_PIN, GRB>(glbl_lamp_state.leds, NUM_LEDS);
     glbl_lamp_state.initialized = true;
-    glbl_lamp_state.on = false;
+    glbl_lamp_state.on = true;
     glbl_lamp_state.task_queue_process = NULL;
 }
 
@@ -29,7 +29,8 @@ void iterate()
                 break;
             case LAMP_SWITCH_ANIMATION_REQ:
                 Serial.println("LAMP_SWITCH_ANIMATION_REQ");
-                glbl_lamp_state.current_prm_state.animation_cb(glbl_lamp_state.leds, ANIMATION_EXIT, glbl_lamp_state.current_prm_state.params);
+                if(glbl_lamp_state.current_prm_state.animation_cb != NULL)
+                    glbl_lamp_state.current_prm_state.animation_cb(glbl_lamp_state.leds, ANIMATION_EXIT, glbl_lamp_state.current_prm_state.params);
                 glbl_lamp_state.task_queue_process->cb(lamp_switch_animation());
                 glbl_lamp_state.current_prm_state.animation_cb(glbl_lamp_state.leds, ANIMATION_ENTER, glbl_lamp_state.current_prm_state.params);
                 break;

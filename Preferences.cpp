@@ -33,3 +33,18 @@ bool sleep()
     trigger = timeinfo.tm_hour >= SLEEP_HOUR && timeinfo.tm_hour <= MORNING_HOUR;
     return result;
 }
+
+bool day()
+{
+    static bool trigger = false;
+
+    struct tm timeinfo;
+    getLocalTime(&timeinfo);
+    
+    Serial.print("Day: ");
+    Serial.println(timeinfo.tm_hour);
+
+    bool result = !trigger && (timeinfo.tm_hour >= MORNING_HOUR && timeinfo.tm_hour <= NIGHT_HOUR);
+    trigger = timeinfo.tm_hour >= MORNING_HOUR && timeinfo.tm_hour <= NIGHT_HOUR;
+    return result;
+}
