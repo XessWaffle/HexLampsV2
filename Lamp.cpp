@@ -20,15 +20,21 @@ void iterate()
         switch(glbl_lamp_state.task_queue_process->req_task) 
         {
             case LAMP_ON_REQ:
+#ifdef DEBUG
                 Serial.println("LAMP_ON_REQ");
+#endif
                 glbl_lamp_state.task_queue_process->cb(lamp_on());
                 break;
             case LAMP_OFF_REQ:
+#ifdef DEBUG
                 Serial.println("LAMP_OFF_REQ");
+#endif
                 glbl_lamp_state.task_queue_process->cb(lamp_off());
                 break;
             case LAMP_SWITCH_ANIMATION_REQ:
+#ifdef DEBUG
                 Serial.println("LAMP_SWITCH_ANIMATION_REQ");
+#endif
                 if(glbl_lamp_state.current_prm_state.animation_cb != NULL)
                     glbl_lamp_state.current_prm_state.animation_cb(glbl_lamp_state.leds, ANIMATION_EXIT, glbl_lamp_state.current_prm_state.params);
                 glbl_lamp_state.task_queue_process->cb(lamp_switch_animation());
@@ -57,13 +63,13 @@ void iterate()
 lamp_task_e lamp_on()
 {
     lamp_parameters_s *params = &(glbl_lamp_state.task_queue_process->req_params);
-    if(glbl_lamp_state.on) return LAMP_ON_FAIL;
-    glbl_lamp_state.on = true;
     if(params->animation_cb != NULL)
     {
         memcpy(&glbl_lamp_state.current_prm_state, params, sizeof(lamp_parameters_s));
         glbl_lamp_state.current_prm_state.animation_cb(glbl_lamp_state.leds, ANIMATION_ENTER, glbl_lamp_state.current_prm_state.params);
     }
+    if(glbl_lamp_state.on) return LAMP_ON_FAIL;
+    glbl_lamp_state.on = true;
     return LAMP_ON_DONE;
 }
 
@@ -93,7 +99,9 @@ lamp_task_e lamp_switch_animation()
 
 void add_task_packet(lamp_task_packet_s *packet)
 {
-    Serial.println("Added packet");       
+#ifdef DEBUG
+    Serial.println("Added packet");
+#endif
     if(glbl_lamp_state.task_queue_process == NULL)
         glbl_lamp_state.task_queue_process = packet;
     else

@@ -7,7 +7,9 @@ void color(struct CRGB leds[], animation_state_e state, animation_parameters_s i
     if(state == ANIMATION_ENTER)
     {
         params.init_params = init_params;
+#ifdef DEBUG
         Serial.println("Playing Animation Color");
+#endif
         
     }
     else if (state == ANIMATION_CONTINUE)

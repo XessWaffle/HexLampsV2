@@ -4,6 +4,7 @@
 #include "Color.h"
 
 #include "PreferenceManager.h"
+#include "TimeManager.h"
 #include "Preferences.h"
 #include "Utilities.h"
 
@@ -17,11 +18,14 @@ void lamp_task_cb(lamp_task_e task_result)
 
 void setup() {
   // put your setup code here, to run once
+
+#if defined(DEBUG) || defined(DEBUG_PREFERENCES) 
   Serial.begin(115200);
+#endif
+
   initialize();
-  
   connect_wifi();
-  while(initialize_local_time(8 * 60 * 60, 0) == UTIL_FAIL) delay(100);
+  while(sync_time() == TASK_FAIL) delay(100);
 
   lamp_task_packet_s *packet = (lamp_task_packet_s*) malloc(sizeof(lamp_task_packet_s));
   packet->cb = lamp_task_cb;
@@ -59,12 +63,9 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  static uint32_t sys_time = 0;
 
   iterate();
-  if(millis() - sys_time > TIME_UPDATE || sys_time == 0)
-  {
-    iterate_preferences();
-    sys_time = millis();
-  }
+  iterate_time();
+  iterate_preferences();
+
 }

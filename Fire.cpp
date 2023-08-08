@@ -11,7 +11,9 @@ void fire(struct CRGB leds[], animation_state_e state, animation_parameters_s in
         params.init_params = init_params;
         params.gReverseDirection = false;
         random16_add_entropy(random());
+#ifdef DEBUG
         Serial.println("Playing Animation Fire");
+#endif
         
     }
     else if (state == ANIMATION_CONTINUE)

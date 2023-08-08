@@ -1,50 +1,45 @@
 #include "Preferences.h"
 
-#include "time.h"
-
 #include <Arduino.h>
+
+#include "TimeManager.h"
+#include "Constants.h"
 
 bool night()
 {
     static bool trigger = false;
-
-    struct tm timeinfo;
-    getLocalTime(&timeinfo);
-    
+#ifdef DEBUG_PREFERENCES
     Serial.print("Night: ");
-    Serial.println(timeinfo.tm_hour);
+    Serial.println(get_hour());
+#endif
 
-    bool result = !trigger && (timeinfo.tm_hour >= NIGHT_HOUR || timeinfo.tm_hour <= SLEEP_HOUR);
-    trigger = timeinfo.tm_hour >= NIGHT_HOUR || timeinfo.tm_hour <= SLEEP_HOUR;
+    bool result = !trigger && (get_hour() >= NIGHT_HOUR);
+    trigger = get_hour() >= NIGHT_HOUR;
     return result;
 }
 
 bool sleep()
 {
     static bool trigger = false;
-
-    struct tm timeinfo;
-    getLocalTime(&timeinfo);
-    
+#ifdef DEBUG_PREFERENCES
     Serial.print("Sleep: ");
-    Serial.println(timeinfo.tm_hour);
+    Serial.println(get_hour());
+#endif
 
-    bool result = !trigger && (timeinfo.tm_hour >= SLEEP_HOUR && timeinfo.tm_hour <= MORNING_HOUR);
-    trigger = timeinfo.tm_hour >= SLEEP_HOUR && timeinfo.tm_hour <= MORNING_HOUR;
+    bool result = !trigger && (get_hour() >= SLEEP_HOUR && get_hour() <= MORNING_HOUR);
+    trigger = get_hour() >= SLEEP_HOUR && get_hour() <= MORNING_HOUR;
     return result;
 }
 
 bool day()
 {
     static bool trigger = false;
-
-    struct tm timeinfo;
-    getLocalTime(&timeinfo);
-    
+#ifdef DEBUG_PREFERENCES
     Serial.print("Day: ");
-    Serial.println(timeinfo.tm_hour);
+    Serial.println(get_hour());
+#endif
 
-    bool result = !trigger && (timeinfo.tm_hour >= MORNING_HOUR && timeinfo.tm_hour <= NIGHT_HOUR);
-    trigger = timeinfo.tm_hour >= MORNING_HOUR && timeinfo.tm_hour <= NIGHT_HOUR;
+    bool result = !trigger && (get_hour() >= MORNING_HOUR && get_hour() < NIGHT_HOUR);
+    trigger = get_hour() >= MORNING_HOUR && get_hour() < NIGHT_HOUR;
     return result;
 }
